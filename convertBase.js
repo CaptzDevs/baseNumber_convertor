@@ -83,13 +83,14 @@ function getRandomBaseNumber(base) {
 
   
 function validateBase(n,base){
-    if(isNaN(n) ){
-        
+    const regex = /[a-zA-Z]/;
+    let isCharaterInclude = regex.test(String(n))
+
+    if(isCharaterInclude){
         n = String(n).toUpperCase().split('')
-  
         return  n.every((item) => radixToNumber[item] ? (radixToNumber[item] < base) : item >= 0 )
     }
-    else if(!isNaN(n)){
+    else if(!isCharaterInclude){
         n = String(n).split('')
         return n.every((item) => item >= 0 && item < base)
     }
@@ -119,7 +120,7 @@ function divideN(n,to){
 //* Handle about showing result to element
 function showConvertbase(n , base , to){
     // Validate Value 
-
+    
     if(!validateBase(n,base)){
         result.innerHTML = `${n} is not ${base} base`
         result.classList.add("error-base")
