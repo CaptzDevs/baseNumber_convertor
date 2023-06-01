@@ -79,8 +79,6 @@ function getRandomBaseNumber(base) {
     const randomNumber = Math.floor(Math.random() * base);
     return randomNumber.toString(base);
   }
-
-
   
 function validateBase(n,base){
     const regex = /[a-zA-Z]/;
@@ -277,6 +275,8 @@ function convertBase(n , base , to,){
 }
 
 increaseValueByMouse()
+
+
 
 /* let n = 0
 setInterval(() =>{ 
