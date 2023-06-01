@@ -154,29 +154,23 @@ function convertBase(n , base , to,){
         res = n
     }
     else if(n === to && base === 10){
-        console.log("n = to")
         res = 10
     }
     else if(to === 10){
 
-        console.log('1');
         res = toDec(ns,base)
 
     }else if(base > to && base === 10){
-        console.log('2')
 
         res = divideN(n,to) 
 
     }else if(base >= 10 && to > 10){
-        console.log('3')
 
         let nDec = toDec(ns,base)
         let divided = divideN(nDec,to)
-
         res = divided
 
     } else {
-        console.log('4')
 
         let nDec = toDec(ns,base)
         res = divideN(nDec,to)
@@ -282,3 +276,11 @@ function convertBase(n , base , to,){
 }
 
 increaseValueByMouse()
+
+/* let n = 0
+setInterval(() =>{ 
+
+    document.getElementById('result').innerHTML =  `${convertBase(n,10,2)} | ${n}`
+    n += 1;
+
+},500) */
