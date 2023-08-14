@@ -18,8 +18,8 @@ const numberToRadix = {
   //* ns : number [any base]
   //* base : base of ns [any base] || 10
 
-function toDec(ns,base = 10){
-    if(typeof num != 'string'){
+function toDec(numstring,base = 10){
+    if(typeof numstring != 'string'){
         console.log(new Error("num should be a string"))
         return
     }
@@ -29,10 +29,10 @@ function toDec(ns,base = 10){
 
     }
     
-    let p = ns.length-1  
+    let p = numstring.length-1  
     let res = 0
-    for(let i = 0 ; i < ns.length;i++){
-        c = ns[i].toUpperCase()
+    for(let i = 0 ; i < numstring.length;i++){
+        c = numstring[i].toUpperCase()
         n = radixToNumber[c] ? radixToNumber[c]*(base**p) : (+c)*(base**p)
         res += n
         p -= 1
@@ -241,7 +241,6 @@ function convertBase(n , base , to,){
 }
 
 increaseValueByMouse()
-
 
 
 /* let n = 0

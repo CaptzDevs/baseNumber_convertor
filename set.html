@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    *{
+        box-sizing: border-box;
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+    body{
+        background: #212121;
+    }
+    main{
+        width: 100%;
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #4a4a4a;
+        padding: 20px;
+        flex-direction: column;
+        gap: 20px;
+        
+    }
+    table{
+        width: 100%;
+        color: white;
+        cursor: pointer;
+    }
+    table, th, td {
+        border: 1px solid rgb(53, 53, 53);
+        border-collapse: collapse;
+        text-align: center;
+        user-select: none;
+    }
+    form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+    }
+    .form-control{
+        padding: 30px;
+        border-radius: 10px;
+        border: 1px solid white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+        color: white;
+
+    }
+    .hl{
+        background: #9b3636;
+    }
+    .hl-remove{
+        background:  none !important;
+    }
+    
+</style>
+<body>
+    <main>
+        <form>
+            <div class="form-control">
+                <label for="">A</label>
+                <input type="text" name="startA" id="startA" value="1"> - 
+                <input type="text" name="endA" id="endA">
+                <input type="text"  name="stepA" id="stepA" value="1">
+
+            </div>
+            <div class="form-control">
+                <label for="">B</label>
+                <input type="text" name="startB" id="startB" value="1"> - 
+                <input type="text" name="endB" id="endB">
+                <input type="text"  name="stepB" id="stepB" value="1">
+
+            </div>
+        </form>
+        <hr width="100%">
+        <table>
+            <thead>
+            </thead>
+            <tbody>
+                
+            </tbody>
+        </table>
+        
+    </main>
+    <script src="../Math/bin/array.js"></script>
+    <script src="../Math/set.js"></script>
+
+</body>
+
+</html>
