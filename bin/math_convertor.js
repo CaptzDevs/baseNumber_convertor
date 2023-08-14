@@ -150,6 +150,49 @@
         return res
     }
 
+    //* remove Trailing Zero  
+   /* 
+       * @param {string , array} numbers
+    */
+
+    function removeTrailingZero(numbers = '') {
+        let resArr = [];
+        let withDec = false
+    
+        if (!(numbers instanceof Array)) {
+            numbers = String(numbers);
+            if (numbers.includes(".")) {
+                let numsplit = numbers.split(".");
+                withDec = true
+                resArr = [...numsplit[1]];
+            }else{
+                resArr = [...numbers];
+            }
+        }
+    
+        if (numbers instanceof Array) {
+            resArr = numbers;
+        }
+    
+        if (resArr instanceof Array) {
+            let foundOne = false;
+    
+            for (let i = resArr.length - 1; i >= 0; i--) {
+                if (resArr[i] == 1) {
+                    foundOne = true;
+                }
+                if (i == 0 && resArr[i] == 0 && !foundOne) {
+                    resArr.push(0);
+                }
+    
+                if (resArr[i] == 0 && !foundOne) {
+                    resArr.pop();
+                }
+            }
+        }
+        return withDec ? numbers.split(".")[0]+"."+resArr.join("") : resArr.join("");
+    }
+    
 
 /* ------------------------------------------------------------------  */
 

@@ -18,15 +18,20 @@ const numberToRadix = {
   //* ns : number [any base]
   //* base : base of ns [any base] || 10
 
-function toDec(numstring,base = 10){
-    if(typeof numstring != 'string'){
-        console.log(new Error("num should be a string"))
-        return
+  function toDec(numstring,base = 10){
+    if (numstring && typeof numstring !== "string") {
+        throw new Error("numstring should be a string");
     }
-    if(typeof base != 'number'){
-        console.log(new Error("base should be a num"))
-        return
+    if (base && typeof base !== 'number') {
+        throw new Error("base should be a number");
+    }
 
+    
+    if (numstring.includes('.')) {
+        let numsplit = numstring.split('.');
+        let n = toDec(numsplit[0], base);
+        let dec = toDec(numsplit[1], base) / (base ** numsplit[1].length);
+        return n + dec;
     }
     
     let p = numstring.length-1  
@@ -36,10 +41,10 @@ function toDec(numstring,base = 10){
         n = radixToNumber[c] ? radixToNumber[c]*(base**p) : (+c)*(base**p)
         res += n
         p -= 1
-
     }
     return res
 }
+
 
 function getRandomBaseNumber(base) {
     const randomNumber = Math.floor(Math.random() * base);
@@ -47,6 +52,7 @@ function getRandomBaseNumber(base) {
   }
   
 function validateBase(n,base){
+
     const regex = /[a-zA-Z]/;
     let isCharaterInclude = regex.test(String(n))
 
@@ -64,28 +70,104 @@ function validateBase(n,base){
 
 /* console.log(toDec("5F",16)) */
 
+/* --------------------------------------------------- */  
 //* Short Divide get only frac 
+function divideN(n, base, to) {
 
-function divideN(n,to){
+    console.log(n,base,to)
+    let devide = n;
+    let frac = 0;
+    let resArr = [];
+    let numstring = String(n);
+  
+    if (numstring.includes(".")) {
+      let numsplit = numstring.split(".");
+      let n = divideN(numsplit[0], base, to);
+      let dec = getFrac(numsplit[1], base, to);
+  
+      return n + "." + dec;
+    }
+  
+    while (devide != 0) {
+      frac = devide % to;
+      devide = Math.floor(devide / to);
+  
+      resArr.unshift(numberToRadix[frac] ? numberToRadix[frac] : frac);
+    }
+  
+    return resArr.join("");
+  }
+  
+  function getFrac(n, base, to) {
+    let devide = n / 10 ** String(n).length;
+    let result = 0;
+    let frac = 0;
+    let resArr = [];
+    let count = 1;
+  
+    while (devide < 1 && count <= 30) {
+      result = devide * to;
+      frac = Math.floor(result);
+      devide = +(result - Math.floor(result)).toFixed(2);
 
-        let devide = n
-        let frac = 0
-        let resArr = []
-
-        while(devide != 0){
-            frac = devide%to
-            devide = Math.floor(devide/to)
-
-            resArr.unshift(numberToRadix[frac] ? numberToRadix[frac] : frac )
-        }
-        return resArr.join('')
-}
+      resArr.push(numberToRadix[frac] ? numberToRadix[frac] : frac);
+  
+  
+      count++;
+    }
+  
+    //remove trailing zero
+    return removeTrailingZero(resArr);
+  
+  }
+  
+  //hand write
+  function removeTrailingZero(numbers = '') {
+      let resArr = [];
+      let withDec = false
+  
+      if (!(numbers instanceof Array)) {
+          numbers = String(numbers);
+          if (numbers.includes(".")) {
+              let numsplit = numbers.split(".");
+              withDec = true
+              resArr = [...numsplit[1]];
+          }else{
+              resArr = [...numbers];
+          }
+      }
+  
+      if (numbers instanceof Array) {
+          resArr = numbers;
+      }
+  
+      if (resArr instanceof Array) {
+          let foundOne = false;
+  
+          for (let i = resArr.length - 1; i >= 0; i--) {
+              if (resArr[i] == 1) {
+                  foundOne = true;
+              }
+              if (i == 0 && resArr[i] == 0 && !foundOne) {
+                  resArr.push(0);
+              }
+  
+              if (resArr[i] == 0 && !foundOne) {
+                  resArr.pop();
+              }
+          }
+      }
+  
+      return withDec ? numbers.split(".")[0]+"."+resArr.join("") : resArr.join("");
+  }
+  
+/* --------------------------------------------------- */  
 
 //* Handle about showing result to element
 function showConvertbase(n , base , to){
     // Validate Value 
     
-    if(!validateBase(n,base)){
+  /*   if(!validateBase(n,base)){
         result.innerHTML = `${n} is not ${base} base`
         result.classList.add("error-base")
         return 0
@@ -93,7 +175,7 @@ function showConvertbase(n , base , to){
     }else{
         result.classList.remove("error-base")
     }
-    
+     */
     res = convertBase(n,base,to)
 
     result.innerHTML = `<span>${String(n).toUpperCase()}<sub>${base}</sub> = ${res}<sub>${to}</sub></span>`
@@ -104,81 +186,98 @@ function showConvertbase(n , base , to){
 //* Main convert function
 function convertBase(n , base , to,){
     
-    if(!validateBase(n,base)){
+/*     if(!validateBase(n,base)){
         console.error(`${n} is not ${base} base`)
         return 0
-    }
+    } */
 
-    let ns = ''+n
+    let ns = ''+Math.abs(n)
     let res = 0;
-
     if(n == 0){
         res = 0
     }
     else if(base === to){
-        res = n
+        res = Math.abs(n)
+        console.log('das6')
+
     }
     else if(n === to && base === 10){
         res = 10
+        console.log('das5')
+
     }
     else if(to === 10){
-
         res = toDec(ns,base)
+        console.log('das4')
 
     }else if(base > to && base === 10){
 
-        res = divideN(n,to) 
+        res = divideN(n,base,to) 
+        console.log(res)
+        console.log('das1')
 
     }else if(base >= 10 && to > 10){
 
         let nDec = toDec(ns,base)
-        let divided = divideN(nDec,to)
+        console.log(nDec)
+        let divided = divideN(nDec,base,to)
         res = divided
+        console.log('das2')
 
     } else {
 
         let nDec = toDec(ns,base)
-        res = divideN(nDec,to)
+        res = divideN(nDec,base,to)
+        console.log('das3')
+    }
+
+    if(n < 0){
+        res = '-'+res
     }
  
     return res
 }
 
-//* init evnet
-    let numInput = document.getElementById('num')
-        numInput.dataset.dec = numInput.value
-
-    let btn = document.getElementById('cal')
-    let selectionBase =  document.getElementById('base')
-    let selectionTo = document.getElementById('to')
-
-    function showResult(){
-        let n = document.getElementById('num').value
-        let base =  +document.getElementById('base').value
-        let to = +document.getElementById('to').value
-        showConvertbase(n,base,to)
-
-        return {n:n,base:base,to:to}
-    }
-
-    numInput.addEventListener('input',(e)=>{
-        let base =  +document.getElementById('base').value
-        e.target.dataset.dec = toDec(e.target.value,base)
-        showResult()
-
-    })
+function showResult(){
+    let n = document.getElementById('num').value
+    let base =  +document.getElementById('base').value
+    let to = +document.getElementById('to').value
     
-    selectionBase.addEventListener('input',(e)=>{
-        showResult()
-    })
-    selectionTo.addEventListener('input',(e)=>{
-        showResult()
-    })
+    showConvertbase(n,base,to)
 
-    btn.addEventListener("click",(e)=>{
-        e.preventDefault()
-        showResult()
-    })
+    return {n:n,base:base,to:to}
+}
+
+//* init evnet
+   function initEvent(){
+    let numInput = document.getElementById('num')
+    numInput.dataset.dec = numInput.value
+
+let btn = document.getElementById('cal')
+let selectionBase =  document.getElementById('base')
+let selectionTo = document.getElementById('to')
+
+
+
+numInput.addEventListener('input',(e)=>{
+    let base =  +document.getElementById('base').value
+    e.target.dataset.dec = toDec(e.target.value,base)
+    showResult()
+
+})
+
+selectionBase.addEventListener('input',(e)=>{
+    showResult()
+})
+selectionTo.addEventListener('input',(e)=>{
+    showResult()
+})
+
+btn.addEventListener("click",(e)=>{
+    e.preventDefault()
+    showResult()
+})
+   }
 
     function increaseValueByMouse(){
 
@@ -241,6 +340,8 @@ function convertBase(n , base , to,){
 }
 
 increaseValueByMouse()
+initEvent()
+
 
 
 /* let n = 0
