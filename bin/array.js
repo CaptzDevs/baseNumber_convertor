@@ -54,6 +54,7 @@ function grade(i){
 
 //* Generate Array
 
+
 let arr = inRange(1,15,1)
 /* 
 inRange(1,arr.length,1,(i)=>{
