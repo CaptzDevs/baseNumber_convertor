@@ -120,7 +120,11 @@ while(i <= 10){
 }
 
 arr.forEach((item)=>{
-    console.log(roundAt(item,1),item)
+    console.log(toShort(floorAt(item,3)),item)
+    console.log(toShort(item),item)
+    console.log("-------------")
+
 })
+
 
 
