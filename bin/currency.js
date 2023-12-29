@@ -1,6 +1,5 @@
 
-
-
+import { rand } from './array.js'
 const k =  10**3
 const m =  10**6
 const b =  10**9
@@ -29,7 +28,7 @@ function toShort(n, dp = 2){
         return String(n)
     }
 
-    let dec , fac, dfac
+    let dec , fac, dfac ,result
     let pow = 1000**indexSuffix
     let suffix = suffixes[indexSuffix]
 
@@ -104,9 +103,6 @@ function roundAt(n = 0,index = 1){
 //*-------------------------------------------------------------------------
 //* test
 
-function rand(min = 1, max = 10) {
-    return Math.floor(Math.random() * (max - min) ) + min;
-}
 
 let i = 0
 

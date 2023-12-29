@@ -1,5 +1,384 @@
 
 
+const inventory = [
+    { name: "asparagus", type: "vegetables", quantity: 5 },
+    { name: "bananas", type: "fruit", quantity: 0 },
+    { name: "goat", type: "meat", quantity: 23 },
+    { name: "cherries", type: "fruit", quantity: 5 },
+    { name: "fish", type: "meat", quantity: 22 },
+  ];
+
+  const vaccineTemplate =  [
+    {
+      template_id: 1,
+      row_id: 1,
+      group_id: '1',
+      template_name: 'BCG',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '0',
+      vaccine_max_day: '1',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: 'รับตอนเแรกเกิด',
+      group_name_eng: 'BCG',
+      group_name_th: 'บีซีจี',
+      base_vaccine_type_id: '003',
+      group_status: true
+    },
+    {
+      template_id: 2,
+      row_id: 2,
+      group_id: '2',
+      template_name: 'HBV',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '0',
+      vaccine_max_day: '30',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'HBV',
+      group_name_th: 'ไวรัสตับอักเสบบี',
+      base_vaccine_type_id: '004',
+      group_status: true
+    },
+    {
+      template_id: 3,
+      row_id: 13,
+      group_id: '3',
+      template_name: 'ROTA',
+      dose: '3',
+      vaccine_type: '1',
+      vaccine_min_day: '42',
+      vaccine_max_day: '240',
+      gap_min_day: '60',
+      gap_max_day: '65',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'ROTA',
+      group_name_th: 'โรต้า',
+      base_vaccine_type_id: '015',
+      group_status: true
+    },
+    {
+      template_id: 4,
+      row_id: 4,
+      group_id: '4',
+      template_name: 'DTwP+HIB+OPV+HBV (6 โรค)',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '50',
+      vaccine_max_day: '70',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTwP+HIB+OPV+HBV',
+      group_name_th: 'คอตีบ-บาดทะยัก-ไอกรน-ฮิบ-โปลิโอ-ตับอักเสบบี (6โรค)',
+      base_vaccine_type_id: '030',
+      group_status: true
+    },
+    {
+      template_id: 5,
+      row_id: 9,
+      group_id: '5',
+      template_name: 'DTwP+HIB+OPV (5 โรค)',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '120',
+      vaccine_max_day: '130',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTwP+HIB+OPV',
+      group_name_th: 'คอตีบ-บาดทะยัก-ไอกรน-ฮิบ-โปลิโอ (5โรค)',
+      base_vaccine_type_id: '029',
+      group_status: true
+    },
+    {
+      template_id: 6,
+      row_id: 4,
+      group_id: '4',
+      template_name: 'DTwP+HIB+OPV+HBV (6 โรค)',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '180',
+      vaccine_max_day: '190',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTwP+HIB+OPV+HBV',
+      group_name_th: 'คอตีบ-บาดทะยัก-ไอกรน-ฮิบ-โปลิโอ-ตับอักเสบบี (6โรค)',
+      base_vaccine_type_id: '030',
+      group_status: true
+    },
+    {
+      template_id: 7,
+      row_id: 14,
+      group_id: '6',
+      template_name: 'Influ first 2 dose',
+      dose: '2',
+      vaccine_type: '1',
+      vaccine_min_day: '180',
+      vaccine_max_day: '3285',
+      gap_min_day: '30',
+      gap_max_day: '30',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'Influ',
+      group_name_th: 'ไข้หวัดใหญ่',
+      base_vaccine_type_id: '001',
+      group_status: true
+    },
+    {
+      template_id: 8,
+      row_id: 14,
+      group_id: '6',
+      template_name: 'Influ yearly',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '180',
+      vaccine_max_day: '3285',
+      gap_min_day: '365',
+      gap_max_day: '365',
+      yearly: true,
+      template_status: true,
+      active_after_id: '7',
+      template_description: null,
+      group_name_eng: 'Influ',
+      group_name_th: 'ไข้หวัดใหญ่',
+      base_vaccine_type_id: '001',
+      group_status: true
+    },
+    {
+      template_id: 12,
+      row_id: 16,
+      group_id: '8',
+      template_name: 'JE (Imojev)',
+      dose: '2',
+      vaccine_type: '1',
+      vaccine_min_day: '270',
+      vaccine_max_day: '720',
+      gap_min_day: '360',
+      gap_max_day: '720',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'Live JE',
+      group_name_th: 'วัคซีนไข้สมองอักเสบเจอี (Imojev)',
+      base_vaccine_type_id: '011',
+      group_status: true
+    },
+    {
+      template_id: 13,
+      row_id: 17,
+      group_id: '9',
+      template_name: 'JE (CD JE)',
+      dose: '2',
+      vaccine_type: '1',
+      vaccine_min_day: '270',
+      vaccine_max_day: '360',
+      gap_min_day: '90',
+      gap_max_day: '90',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'JE',
+      group_name_th: 'วัคซีนไข้สมองอักเสบเจอี (CD JE)',
+      base_vaccine_type_id: '008',
+      group_status: true
+    },
+    {
+      template_id: 14,
+      row_id: 18,
+      group_id: '10',
+      template_name: 'MMR 1',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '270',
+      vaccine_max_day: '360',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'MMR',
+      group_name_th: 'วัคซีนหัดเยอรมัน-คางทูม',
+      base_vaccine_type_id: '007',
+      group_status: true
+    },
+    {
+      template_id: 15,
+      row_id: 18,
+      group_id: '10',
+      template_name: 'MMR 2',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '540',
+      vaccine_max_day: '540',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'MMR',
+      group_name_th: 'วัคซีนหัดเยอรมัน-คางทูม',
+      base_vaccine_type_id: '007',
+      group_status: true
+    },
+    {
+      template_id: 16,
+      row_id: 15,
+      group_id: '7',
+      template_name: 'DTWP+IPV 1',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '540',
+      vaccine_max_day: '540',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTWP+IPV',
+      group_name_th: 'คอตีบ-บาดทะยัก-ไอกรน-โปลิโอ  (4 โรค)',
+      base_vaccine_type_id: '026',
+      group_status: true
+    },
+    {
+      template_id: 17,
+      row_id: 15,
+      group_id: '7',
+      template_name: 'DTWP+IPV 2',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '1460',
+      vaccine_max_day: '2190',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTWP+IPV',
+      group_name_th: 'คอตีบ-บาดทะยัก-ไอกรน-โปลิโอ  (4 โรค)',
+      base_vaccine_type_id: '026',
+      group_status: true
+    },
+    {
+      template_id: 18,
+      row_id: 19,
+      group_id: '11',
+      template_name: 'HPV',
+      dose: '2',
+      vaccine_type: '1',
+      vaccine_min_day: '3285',
+      vaccine_max_day: '3645',
+      gap_min_day: '180',
+      gap_max_day: '360',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'HPV',
+      group_name_th: 'วัคซีนป้องกันมะเร็งปากมดลูกเอชพีวี',
+      base_vaccine_type_id: '016',
+      group_status: true
+    },
+    {
+      template_id: 21,
+      row_id: 14,
+      group_id: '6',
+      template_name: 'Influ yearly > 9 year',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '3285',
+      vaccine_max_day: '4380',
+      gap_min_day: '365',
+      gap_max_day: '365',
+      yearly: true,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'Influ',
+      group_name_th: 'ไข้หวัดใหญ่',
+      base_vaccine_type_id: '001',
+      group_status: true
+    },
+    {
+      template_id: 20,
+      row_id: 20,
+      group_id: '12',
+      template_name: 'dTP',
+      dose: '1',
+      vaccine_type: '1',
+      vaccine_min_day: '4015',
+      vaccine_max_day: '4380',
+      gap_min_day: '0',
+      gap_max_day: '0',
+      yearly: false,
+      template_status: true,
+      active_after_id: '0',
+      template_description: null,
+      group_name_eng: 'DTwP',
+      group_name_th: 'วัคซีนคอตีบ บาดทะยัก ไอกรนชนิดทั้งเซลล(DTwP)',
+      base_vaccine_type_id: '005',
+      group_status: true
+    }
+  ]
+  
+
+  function groupBy(arr , callback){
+
+        let result = []
+        let obj = {}
+
+        arr.map((item,i)=>{
+            let condition = callback(item);
+            let groupData = condition
+
+            if( !obj[groupData] ){
+                obj[groupData] = []
+            }
+            
+            obj[groupData] = [...obj[groupData] ,item]
+                
+        })
+
+        result.push(obj) 
+
+        return result
+  }
+
+
+  let result = groupBy(vaccineTemplate , ( { group_id } ) => group_id == '6')
+
+
+
 //* =========================================================
 
 function inRange(start = 0,end,step = 1,fn){
@@ -24,7 +403,7 @@ function inRange(start = 0,end,step = 1,fn){
 //* =========================================================
 
 
-function rand(min = 1, max = 10) {
+export function rand(min = 1, max = 10) {
     return Math.floor(Math.random() * (max - min) ) + min;
 }
 
@@ -61,7 +440,6 @@ function randArray(length, min, max) {
 //* =========================================================
 
 //* SORT
-
     function sortASC(a,b){
             return a - b
     }
@@ -71,11 +449,6 @@ function randArray(length, min, max) {
 
     let arrSort = randArray(rand(5,6),1,20)
 
-    console.log("Original",arrSort)
-    console.log("Sort ASC",arrSort.sort(sortASC))
-    console.log("Sort DESC",arrSort.sort(sortDESC))
-
-    console.log("---")
 
 //* =========================================================
 
@@ -279,7 +652,6 @@ console.log(missingRangeNumber([1,2,3,5]))
 
 console.log("------------") */
 
-
 //* Generate Array
 
 let arr = inRange(1,15,1)
@@ -302,6 +674,7 @@ arrInt.forEach((item)=>{
     console.log("-------------")
 
 }) */
+
 
 
 
