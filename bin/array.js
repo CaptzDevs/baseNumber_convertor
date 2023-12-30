@@ -1,4 +1,5 @@
 
+//* =========================================================
 
 const inventory = [
     { name: "asparagus", type: "vegetables", quantity: 5 },
@@ -6,7 +7,20 @@ const inventory = [
     { name: "goat", type: "meat", quantity: 23 },
     { name: "cherries", type: "fruit", quantity: 5 },
     { name: "fish", type: "meat", quantity: 22 },
-  ];
+    { name: "carrots", type: "vegetables", quantity: 10 },
+    { name: "apples", type: "fruit", quantity: 15 },
+    { name: "chicken", type: "meat", quantity: 18 },
+    { name: "broccoli", type: "vegetables", quantity: 8 },
+    { name: "potatoes", type: "vegetables", quantity: 12 },
+    { name: "grapes", type: "fruit", quantity: 30 },
+    { name: "beef", type: "meat", quantity: 25 },
+    { name: "spinach", type: "vegetables", quantity: 7 },
+    // Add more items as needed
+];
+
+// Example usage:
+console.log(inventory);
+
 
   const vaccineTemplate =  [
     {
@@ -350,6 +364,8 @@ const inventory = [
       group_status: true
     }
   ]
+
+  
   
 
   function groupBy(arr , callback){
@@ -360,7 +376,16 @@ const inventory = [
         arr.map((item,i)=>{
             let condition = callback(item);
             let groupData = condition
+        
+            //error handler 
 
+            // When condition is undefined
+            if(!condition){
+                 obj['error'] = `No attribute name ${obj[groupData]}`
+                 return -1;
+            }
+
+                
             if( !obj[groupData] ){
                 obj[groupData] = []
             }
@@ -374,11 +399,10 @@ const inventory = [
         return result
   }
 
-
-  let result = groupBy(vaccineTemplate , ( { group_id } ) => group_id == '6')
-
-
-
+  let result = groupBy(inventory , ( { group_id } ) => group_id )
+  result.map((item)=>{
+    console.log(item)
+  })
 //* =========================================================
 
 function inRange(start = 0,end,step = 1,fn){
@@ -399,6 +423,7 @@ function inRange(start = 0,end,step = 1,fn){
     }
     return arr
 }
+
 
 //* =========================================================
 
