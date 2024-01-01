@@ -1,42 +1,36 @@
+
 const inventory = [
-  { name: "asparagus", type: "vegetables", quantity: 5 },
-  { name: "bananas", type: "fruit", quantity: 0 },
-  { name: "goat", type: "meat", quantity: 23 },
-  { name: "cherries", type: "fruit", quantity: 5 },
-  { name: "fish", type: "meat", quantity: 22 },
-  { name: "carrots", type: "vegetables", quantity: 10 },
-  { name: "apples", type: "fruit", quantity: 15 },
-  { name: "chicken", type: "meat", quantity: 18 },
-  { name: "broccoli", type: "vegetables", quantity: 8 },
-  { name: "potatoes", type: "vegetables", quantity: 12 },
-  { name: "grapes", type: "fruit", quantity: 30 },
-  { name: "beef", type: "meat", quantity: 25 },
-  { name: "spinach", type: "vegetables", quantity: 7 },
+  { id: 1, name: "asparagus", type: "vegetables", quantity: 5 },
+  { id: 2, name: "bananas", type: "fruit", quantity: 0 },
+  { id: 3, name: "goat", type: "meat", quantity: 23 },
+  { id: 4, name: "cherries", type: "fruit", quantity: 5 },
+  { id: 5, name: "fish", type: "meat", quantity: 22 },
+  { id: 6, name: "carrots", type: "vegetables", quantity: 10 },
+  { id: 7, name: "apples", type: "fruit", quantity: 15 },
+  { id: 8, name: "chicken", type: "meat", quantity: 18 },
+  { id: 9, name: "broccoli", type: "vegetables", quantity: 8 },
+  { id: 10, name: "potatoes", type: "vegetables", quantity: 12 },
+  { id: 11, name: "grapes", type: "fruit", quantity: 30 },
+  { id: 12, name: "beef", type: "meat", quantity: 25 },
+  { id: 13, name: "spinach", type: "vegetables", quantity: 7 },
   // Add more items as needed
 ];
 
-var carBrands = [
-  "Toyota",
-  "Honda",
-  "Ford",
-  "Chevrolet",
-  "Nissan",
-  "BMW",
-  "Mercedes-Benz",
-  "Audi",
-  "Volkswagen",
-  "Tesla",
-  "Hyundai",
-  "Kia",
-  "Mazda",
-  "Subaru",
-  "Jeep",
-  "Volvo",
-  "Lexus",
-  "Ferrari",
-  "Porsche",
-  "Jaguar"
+
+const sales = [
+  { id: 1, productId: 2, quantity: 3, price: 1.5 },
+  { id: 2, productId: 7, quantity: 5, price: 2.0 },
+  { id: 3, productId: 11, quantity: 2, price: 3.5 },
+  { id: 4, productId: 3, quantity: 1, price: 10.0 },
+  { id: 5, productId: 5, quantity: 2, price: 8.0 },
+  { id: 6, productId: 9, quantity: 4, price: 1.0 },
+  { id: 7, productId: 1, quantity: 2, price: 4.0 },
+  { id: 8, productId: 4, quantity: 3, price: 6.0 },
+  { id: 9, productId: 6, quantity: 1, price: 2.5 },
+  { id: 10, productId: 8, quantity: 2, price: 5.0 },
+  // Add more sales entries as needed
 ];
+
 
 function sum(arrN = []) {
   return arrN.reduce((prev, curr) => (prev += curr));
@@ -171,6 +165,47 @@ class Sql {
 
     this.resultArray = result;
     return this;
+  }
+
+  join(dataset , callback , joinDatasetName = 'joined'){
+
+    let result =  []
+    this.resultArray.forEach((item)=>{
+        dataset.forEach((data)=>{
+          if(callback(item , data)){
+              Object.keys(data).map((key)=>{
+                  data[joinDatasetName+"_"+key] = data[key];
+                  delete data[key]
+              })
+              result.push( {...item , ...data}  )
+          }
+        })
+    })
+
+    this.resultArray = result
+
+  }
+
+  leftJoin(dataset , callback , joinDatasetName = 'joined'){
+
+    let result =  []
+    this.resultArray.forEach((item)=>{
+        let newData = {}
+        dataset.forEach((data)=>{
+          if(callback(item , data)){
+              Object.keys(data).map((key)=>{
+                  data[joinDatasetName+"_"+key] = data[key];
+                  delete data[key]
+              })
+              newData = data
+          }
+        })
+
+        result.push( {...item , ...newData}  )
+    })
+
+    this.resultArray = result
+
   }
 
   //* Data Range Limit--------------------
@@ -371,8 +406,12 @@ class Sql {
 let sql_test = new Sql(inventory);
 
 sql_test.select();
-sql_test.where(({ type }) => String(type) );
-sql_test.orderBy("quantity", "ASC");  
+//sql_test.where(({ type }) => String(type) );
+sql_test.join(sales, (baseData , joinData) => {
+  return baseData.id === joinData.productId 
+} ,'salse' )
+
+sql_test.orderBy("id", "ASC");  
 //sql_test.limit(1)
 
 //console.log(sql_test)
@@ -382,6 +421,11 @@ sql_test.orderBy("quantity", "ASC");
     console.log(new Sql(sql_test.resultArray[0][item]).sum('quantity'))
 }) */
 
+
+console.log(sql_test)
+console.log("Data row(s) : "+sql_test.resultArray.length)
+
+
 /* console.log("sum",sql_test.sum('quantity')) */
 //console.log("max",sql_test.max('quantity'))
 //console.log("min",sql_test.min('quantity'))
@@ -389,13 +433,7 @@ sql_test.orderBy("quantity", "ASC");
 console.log("--------------");
 
 
-/* inRange(0,carBrands.length,1,(i)=>{
-  console.log(carBrands[i])
-}) */
-let word = 'Toyota'
-let searchKeyword = 'Toyata'
 
-// create function that can search familair word like soundex
 
 
 
